@@ -1,0 +1,10 @@
+{
+  "name": "desert Land medium",
+  "image": "https://farmine.land/collection/land/image/desert/05.jpg",
+  "attributes": [
+    {
+      "value": "03",
+      "trait_type": "Landzone"
+    }
+  ]
+}
