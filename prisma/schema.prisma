@@ -87,6 +87,7 @@ model Player {
   skill_shielding_tries BigInt  @default(0) @db.UnsignedBigInt
   skill_fishing         Int     @default(0) @db.UnsignedInt
   skill_fishing_tries   BigInt  @default(0) @db.UnsignedBigInt
+  isOnline Boolean  @default(false)
 
   @@map("players")
 }
