@@ -27,23 +27,27 @@ export class CharacterService {
   }
 
   async createNew(data: CreateCharacterDto) {
+    // Check if the user is authenticated and authorized
+    const user = await this.userService.findOneById(data.account_id);
+    if (!user) {
+      throw new BadRequestException('User not found or not authenticated');
+    }
+
+    if (user.players?.length >= 4) {
+      throw new BadRequestException('Cannot create another character');
+    }
+
+    const characterName = data.name.toLowerCase();
+    if (characterName === 'nobody' || characterName.length < 3 || !/^[a-zA-Z0-9]+$/.test(characterName)) {
+      throw new BadRequestException('Invalid character name');
+    }
+
     try {
-      const nobody = data.name.toLowerCase();
-      if (nobody === 'nobody') {
-        throw new BadRequestException('Cannot create name');
-      }
-
-      const user = await this.userService.findOneById(data.account_id);
-      if (user.players?.length === 4) {
-        throw new BadRequestException('Cannot create another character');
-      }
-
       return await this.prisma.player.create({
         data: {
           name: data.name,
           sex: data.sex,
-          account_id: data.account_id,
-          conditions: Buffer.from('undefined', 'utf-8'),
+          conditions: Buffer.from('undefined', 'utf-8'), // Consider re-evaluating this
           skill_axe: 10,
           skill_sword: 10,
           skill_shielding: 10,
@@ -56,22 +60,17 @@ export class CharacterService {
         },
       });
     } catch (error) {
-      throw new BadRequestException(error.message);
+      console.error(error);
+      throw new BadRequestException('Failed to create character');
     }
   }
 
   async findOneById(id: number) {
-    try {
-      const player = await this.prisma.player.findUnique({
-        where: { id },
-      });
-      if (!player) {
-        throw new NotFoundException(`Player with id ${id} not found`);
-      }
-      return player;
-    } catch (error) {
-      throw new NotFoundException(`Player with id ${id} not found`);
+    const player = await this.prisma.player.findUnique({ where: { id } });
+    if (!player) {
+      throw new NotFoundException('Player not found');
     }
+    return player;
   }
 
   async updateById(id: number, data: Partial<UpdateCharacterDto>) {
@@ -80,23 +79,17 @@ export class CharacterService {
         where: { id },
         data,
       });
-      if (!updatedPlayer) {
-        throw new NotFoundException(`Player with id ${id} not found`);
-      }
+      return updatedPlayer; // Return updated player for confirmation
     } catch (error) {
-      throw new NotFoundException(`Player with id ${id} not found`);
+      throw new NotFoundException('Player not found');
     }
   }
 
   async deleteById(id: number): Promise<void> {
-    try {
-      const player = await this.prisma.player.findUnique({ where: { id } });
-      if (!player) {
-        throw new NotFoundException(`Player with id ${id} not found`);
-      }
-      await this.prisma.player.delete({ where: { id } });
-    } catch (error) {
-      throw new NotFoundException(`Player with id ${id} not found`);
+    const player = await this.prisma.player.findUnique({ where: { id } });
+    if (!player) {
+      throw new NotFoundException('Player not found');
     }
+    await this.prisma.player.delete({ where: { id } });
   }
 }

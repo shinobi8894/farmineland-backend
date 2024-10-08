@@ -23,6 +23,9 @@ model Account {
   premdays        Int     @default(0)
   wallet          String? @db.VarChar(255)
   alpha_key       String? @db.VarChar(255)
+  isEmailVerified Boolean  @default(false)
+  isPhoneVerified Boolean  @default(false)
+  phoneNumber     String?
 
   @@index([wallet])
   @@map("accounts")

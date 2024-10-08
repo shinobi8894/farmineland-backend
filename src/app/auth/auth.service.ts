@@ -3,13 +3,18 @@ import { JwtService } from '@nestjs/jwt';
 import { DateTime } from 'luxon';
 import { UserService } from '../user/user.service';
 import { LoginDto } from './dto/login.dto';
+import { OAuth2Client } from 'google-auth-library'; // Example for Google OAuth
 
 @Injectable()
 export class AuthService {
+  private oauthClient: OAuth2Client;
+
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) {
+    this.oauthClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+  }
 
   async login(user: LoginDto) {
     const userJson = { name: user.name, password: user.password };
@@ -32,7 +37,6 @@ export class AuthService {
         password,
         user.password,
       );
-      console.log(isValid);
       if (!isValid) throw new Error();
       delete user.password;
       return user;
@@ -40,4 +44,5 @@ export class AuthService {
       throw new ForbiddenException('E-mail e/ou senha estão inválidos');
     }
   }
+  
 }
