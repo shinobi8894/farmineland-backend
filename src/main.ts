@@ -14,7 +14,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Security: Set security headers
-  app.use(helmet());
+  // app.use(helmet());
 
   // Security: Rate limiting
   const limiter = rateLimit({
@@ -24,12 +24,12 @@ async function bootstrap() {
   app.use(limiter);
 
   // CORS configuration
-  app.enableCors({
-    origin: ['https://your-allowed-origin.com'], // Specify allowed origins
-    methods: 'GET,POST,PATCH,PUT,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type, Authorization',
-    credentials: true,
-  });
+  // app.enableCors({
+  //   origin: ['https://your-allowed-origin.com'], // Specify allowed origins
+  //   methods: 'GET,POST,PATCH,PUT,DELETE,OPTIONS',
+  //   allowedHeaders: 'Content-Type, Authorization',
+  //   credentials: true,
+  // });
 
   const config = new DocumentBuilder()
     .setTitle("Farmine API's")
