@@ -110,6 +110,7 @@ export class UserService {
 
   async findOneById(id: number) {
     try {
+      console.log('id',id);
       const user = await this.prisma.account.findUnique({
         where: { id },
       });

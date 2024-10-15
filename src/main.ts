@@ -23,9 +23,9 @@ async function bootstrap() {
   });
   app.use(limiter);
 
-  // CORS configuration
+  app.enableCors();
   // app.enableCors({
-  //   origin: ['https://your-allowed-origin.com'], // Specify allowed origins
+  //   origin: ['*'], // Specify allowed origins
   //   methods: 'GET,POST,PATCH,PUT,DELETE,OPTIONS',
   //   allowedHeaders: 'Content-Type, Authorization',
   //   credentials: true,
