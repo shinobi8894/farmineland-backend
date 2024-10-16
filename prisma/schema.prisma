@@ -31,12 +31,20 @@ model Account {
   @@map("accounts")
 }
 
+model Withdraw {
+  id         Int     @id @default(autoincrement())
+  player_id  Int     @default(0)
+  account_id Int     @default(0)
+  withdraw_funds   Int     @default(0)
+}
+
 model Player {
   id                    Int     @id @default(autoincrement())
   name                  String  @db.VarChar(255)
   group_id              Int     @default(1)
   account_id            Int     @default(0)
   level                 Int     @default(1)
+  battlepass            Bytes?  @db.Blob
   vocation              Int     @default(0)
   health                Int     @default(150)
   healthmax             Int     @default(150)
@@ -70,27 +78,43 @@ model Player {
   onlinetime            BigInt  @default(0) @db.UnsignedBigInt
   deletion              BigInt  @default(0)
   balance               BigInt  @default(0) @db.UnsignedBigInt
+  landcoins_balance     BigInt  @default(0) @db.UnsignedBigInt
+  landcoin_withdraw     BigInt? @db.UnsignedBigInt
+  landcoin_purchase      BigInt? @db.UnsignedBigInt
   offlinetraining_time  Int     @default(43200) @db.UnsignedSmallInt
   offlinetraining_skill Int     @default(-1)
   stamina               Int     @default(400) @db.UnsignedSmallInt
-  skill_fist            Int     @default(0) @db.UnsignedInt
+  skill_fist            Int     @default(10) @db.UnsignedInt
   skill_fist_tries      BigInt  @default(0) @db.UnsignedBigInt
   skill_club            Int     @default(10) @db.UnsignedInt
   skill_club_tries      BigInt  @default(0) @db.UnsignedBigInt
-  skill_sword           Int     @default(0) @db.UnsignedInt
+  skill_sword           Int     @default(10) @db.UnsignedInt
   skill_sword_tries     BigInt  @default(0) @db.UnsignedBigInt
-  skill_axe             Int     @default(0) @db.UnsignedInt
+  skill_axe             Int     @default(10) @db.UnsignedInt
   skill_axe_tries       BigInt  @default(0) @db.UnsignedBigInt
-  skill_dist            Int     @default(0) @db.UnsignedInt
+  skill_dist            Int     @default(10) @db.UnsignedInt
   skill_dist_tries      BigInt  @default(0) @db.UnsignedBigInt
-  skill_shielding       Int     @default(0) @db.UnsignedInt
+  skill_shielding       Int     @default(10) @db.UnsignedInt
   skill_shielding_tries BigInt  @default(0) @db.UnsignedBigInt
   skill_fishing         Int     @default(0) @db.UnsignedInt
   skill_fishing_tries   BigInt  @default(0) @db.UnsignedBigInt
-  isOnline Boolean  @default(false)
+  stat_str              Int     @default(0) @db.UnsignedTinyInt
+  stat_int              Int     @default(0) @db.UnsignedTinyInt
+  stat_dex              Int     @default(0) @db.UnsignedTinyInt
+  stat_vit              Int     @default(0) @db.UnsignedTinyInt
+  stat_spr              Int     @default(0) @db.UnsignedTinyInt
+  stat_wis              Int     @default(0) @db.UnsignedTinyInt
+  bronze_workerlastday  Int     @default(0)
+  bronze_workerdays     Int     @default(0)
+  bronze_worker_pass    Int     @default(0)
+  silver_worker_pass    Int     @default(0)
+  silver_workerdays     Int     @default(0)
+  silver_workerlastday  Int     @default(0)
+  isOnline              Boolean @default(false)
 
   @@map("players")
 }
+
 
 model House {
   id             Int    @id @default(autoincrement())

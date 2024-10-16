@@ -6,13 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SkipThrottle } from '@nestjs/throttler';
-import { ResetPassReqDto, ResetPassDto } from './dto/resetPassReqDto.dto copy';
+import { AuthGuard } from '../auth/auth.guard';
+import { ResetPassDto, ResetPassReqDto } from './dto/resetPassReqDto.dto copy';
 
 @SkipThrottle()
 @ApiTags('User')
@@ -31,6 +33,7 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(AuthGuard) // Guard applied here
   @ApiOperation({ summary: 'Lista todos os usuarios' })
   @ApiResponse({
     status: 200,
@@ -42,9 +45,10 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard) // Guard applied here
   @ApiOperation({ summary: 'Puxa informacoes de um unico usuario' })
   @ApiResponse({
-    status: 201,
+    status: 200,
     description: 'Puxa informacoes de um unico usuario',
   })
   async findOneById(@Param('id') id: number) {
@@ -52,20 +56,18 @@ export class UserController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard) // Guard applied here
   @ApiOperation({ summary: 'Atualiza informacoes de um unico usuario' })
   @ApiResponse({
-    status: 201,
+    status: 200,
     description: 'Atualiza informacoes de um unico usuario',
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'Cria um usuario',
   })
   async updateById(@Param('id') id: number, @Body() body: UpdateUserDto) {
     return this.userService.updateById(id, body);
   }
 
   @Post('request-password-reset')
+  @UseGuards(AuthGuard) // Guard applied here
   @ApiBody({
     description: 'Valores que vao no body',
     type: ResetPassReqDto,
@@ -78,6 +80,7 @@ export class UserController {
   }
 
   @Post('reset-password')
+  @UseGuards(AuthGuard) // Guard applied here
   @ApiBody({
     description: 'Valores que vao no body',
     type: ResetPassDto,
@@ -88,6 +91,7 @@ export class UserController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard) // Guard applied here
   @ApiOperation({ summary: 'Deleta um unico usuario' })
   async deleteById(@Param('id') id: number) {
     await this.userService.deleteById(id);

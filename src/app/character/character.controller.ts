@@ -6,17 +6,14 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
 } from '@nestjs/common';
 import { CharacterService } from './character.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
 import { UpdateCharacterDto } from './dto/update-character.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '../auth/auth.guard';
 
 @ApiTags('Character')
 @Controller('api/v1/characters')
-@UseGuards(AuthGuard)
 
 export class CharacterController {
   constructor(private readonly characterService: CharacterService) {}
@@ -26,6 +23,7 @@ export class CharacterController {
   create(@Body() createCharacterDto: CreateCharacterDto) {
     return this.characterService.createNew(createCharacterDto);
   }
+  
 
   @Get()
   @ApiOperation({ summary: 'Lista todos os personagens' })

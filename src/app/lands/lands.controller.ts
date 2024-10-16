@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { LandsService } from './lands.service';
 import { ApiTags } from '@nestjs/swagger';
 import { RaffleDto } from './dto/raffle.dto';
+import { AuthGuard } from '../auth/auth.guard';
 
 @ApiTags('Lands')
 @Controller('/api/v1/lands')
+@UseGuards(AuthGuard)
+
 export class LandsController {
   constructor(private readonly landsService: LandsService) {}
 

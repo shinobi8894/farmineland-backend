@@ -110,13 +110,13 @@ export class UserService {
 
   async findOneById(id: number) {
     try {
-      console.log('id',id);
       const user = await this.prisma.account.findUnique({
         where: { id },
       });
       const players = await this.charService.findAllByUser(id);
       return { ...user, players };
     } catch (error) {
+      console.log('error', error)
       throw new NotFoundException('User not found');
     }
   }

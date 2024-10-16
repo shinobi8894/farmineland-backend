@@ -1,6 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, MaxLength, Validate } from "class-validator";
-import { IsUnique } from "src/validators/IsUnique.validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, MaxLength, Validate } from 'class-validator';
+import { IsUnique } from 'src/validators/IsUnique.validator';
 
 export class CreateCharacterDto {
   @IsNotEmpty({ message: 'Preencha o nome' })

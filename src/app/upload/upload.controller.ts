@@ -3,6 +3,7 @@ import {
   Post,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -18,6 +19,7 @@ import { ImageCompressionInterceptor } from './upload.interceptor';
 
 @ApiTags('Upload')
 @Controller('/api/v1/upload')
+
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 

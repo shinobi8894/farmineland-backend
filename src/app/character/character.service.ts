@@ -57,6 +57,7 @@ export class CharacterService {
           skill_club: 10,
           skill_dist: 10,
           skill_fishing: 10,
+          account_id : data.account_id
         },
       });
     } catch (error) {
@@ -75,12 +76,18 @@ export class CharacterService {
 
   async updateById(id: number, data: Partial<UpdateCharacterDto>) {
     try {
+
+      console.log('update', id);
+      console.log('update_data', data);
       const updatedPlayer = await this.prisma.player.update({
         where: { id },
         data,
       });
+
+      console.log('updated', updatedPlayer);
       return updatedPlayer; // Return updated player for confirmation
     } catch (error) {
+      console.log(error);
       throw new NotFoundException('Player not found');
     }
   }

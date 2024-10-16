@@ -1,4 +1,8 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateCharacterDto } from './create-character.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty } from 'class-validator';
 
-export class UpdateCharacterDto extends PartialType(CreateCharacterDto) {}
+export class UpdateCharacterDto {
+  @IsNotEmpty({ message: 'landcoins_balance require' })
+  @ApiProperty()
+  landcoins_balance: number;
+}

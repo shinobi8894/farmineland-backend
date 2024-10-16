@@ -9,6 +9,7 @@ import { CharacterModule } from './app/character/character.module';
 import { PrismaService } from './database/prisma.service';
 import { JwtModule } from '@nestjs/jwt';
 import { LandsModule } from './app/lands/lands.module';
+import { WithdrawModule } from './app/withdraw/withdraw.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { LandsModule } from './app/lands/lands.module';
     UploadModule,
     CharacterModule,
     LandsModule,
+    WithdrawModule
   ],
   controllers: [],
   providers: [IsUnique, PrismaService],
